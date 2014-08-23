@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2013-2014 Roberto Tyley
  *
- * This file is part of 'BFG Repo-Cleaner' - a tool for removing large
- * or troublesome blobs from Git repositories.
+ * This file is part of 'Don't Blink' - a Weeping Angel widget
+ * for Android devices.
  *
  * Don't Blink is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
