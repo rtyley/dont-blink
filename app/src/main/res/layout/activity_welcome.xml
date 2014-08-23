@@ -7,8 +7,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".WelcomeActivity"
-    android:gravity="center"
-    android:id="@+id/">
+    android:gravity="center">
 
     <TextView
         android:text="@string/hello_world"
