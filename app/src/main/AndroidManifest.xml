@@ -24,7 +24,7 @@
                 android:resource="@xml/widget_info" />
         </receiver>
 
-        <service android:name=".MyService">
+        <service android:name=".AngelService">
         </service>
     </application>
 

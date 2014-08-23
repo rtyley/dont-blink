@@ -19,7 +19,7 @@ public class WidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         final AlarmManager m = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        final Intent intent = new Intent(context, MyService.class);
+        final Intent intent = new Intent(context, AngelService.class);
 
         if (service == null) {
             service = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
