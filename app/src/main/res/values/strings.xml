@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Don\'t Blink</string>
-    <string name="hello_world">This little app is JUST a widget! You need to add it your home screen just like you would any other widget - depending on what device you use, the way to your list of available widgets is different. Try one of these ways:
+    <string name="how_to_install">This little app is JUST a widget! You need to add it your home screen just like you would any other widget - depending on what device you use, the way to your list of available widgets is different. Try one of these ways:
 a) when you go to see your list of applications, is there a \'Widgets\' tab? - if there is, tap it, and \'Don\'t Blink\' should be in there.
 b) if you hold your finger down on an empty space in your homescreen, does the menu that comes up have until \'Widgets\' entry?  if so, \'Don\'t Blink\' should be in there!
     </string>
