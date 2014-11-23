@@ -26,14 +26,16 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ResolveInfo;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
+
+import static java.lang.Math.random;
 
 public class AngelService extends Service {
 
@@ -54,14 +56,20 @@ public class AngelService extends Service {
     public void onCreate() {
         super.onCreate();
         homeActivityPackageNames = getHomeActivityPackageNames();
+        // REGISTER RECEIVER THAT HANDLES SCREEN ON AND SCREEN OFF LOGIC
+        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(new ScreenReceiver(), filter);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
-
-        buildUpdate();
-
+        if (intent.getBooleanExtra("gone_non_interactive", false)) {
+            if (random() > 0.2)
+                advanceAngelState();
+        } else {
+            buildUpdate();
+        }
         return START_NOT_STICKY;
     }
 
@@ -82,17 +90,21 @@ public class AngelService extends Service {
         boolean homeShowing = isHomeShowing();
         Log.d("BLINK", "homeShowing=" + homeShowing);
         if (!homeShowing && homeWasVisibleOnPreviousCheck) {
-            angelState = (angelState + 1) % angelImages.length;
-            Log.i("BLINK", "Advancing to angelState=" + angelState);
-
-            RemoteViews view = new RemoteViews(getPackageName(), R.layout.widget);
-            view.setImageViewResource(R.id.angelImageView, angelImages[angelState]);
-
-            // Push update for this widget to the home screen
-            ComponentName thisWidget = new ComponentName(this, WidgetProvider.class);
-            AppWidgetManager.getInstance(this).updateAppWidget(thisWidget, view);
+            advanceAngelState();
         }
         homeWasVisibleOnPreviousCheck = homeShowing;
+    }
+
+    private void advanceAngelState() {
+        angelState = (angelState + 1) % angelImages.length;
+        Log.i("BLINK", "Advancing to angelState=" + angelState);
+
+        RemoteViews view = new RemoteViews(getPackageName(), R.layout.widget);
+        view.setImageViewResource(R.id.angelImageView, angelImages[angelState]);
+
+        // Push update for this widget to the home screen
+        ComponentName thisWidget = new ComponentName(this, WidgetProvider.class);
+        AppWidgetManager.getInstance(this).updateAppWidget(thisWidget, view);
     }
 
     @Override
@@ -101,6 +113,10 @@ public class AngelService extends Service {
     }
 
     public boolean isHomeShowing() {
+//        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+//        if (pm.isInteractive())
+//            return false;
+
         ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningTaskInfo t : am.getRunningTasks(1)) {
             if (t != null && t.numRunning > 0) {
